@@ -1,9 +1,3 @@
-# -*- coding: utf-8 -*-
-"""Testy unittest dla klasy Product -- uzupelnij metody testowe!
-
-Uruchomienie: python -m unittest test_product_unittest -v
-"""
-
 import unittest
 from product import Product
 

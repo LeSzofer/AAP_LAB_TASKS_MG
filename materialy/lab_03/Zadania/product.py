@@ -14,6 +14,8 @@ class Product:
         # Pamietaj o walidacji: price >= 0, quantity >= 0
         if price < 0 or quantity < 0:
             raise ValueError("Price and quantity must be non-negative")
+        
+        
 
     def add_stock(self, amount: int):
         # TODO: Dodaj ilosc do magazynu. Rzuc ValueError jesli amount < 0
@@ -35,3 +37,9 @@ class Product:
     def total_value(self) -> float:
         # TODO: Zwroc price * quantity
         return self.price * self.quantity
+
+    def apply_discount(self, percent: float):
+        
+        if percent < 0 or percent > 100:
+            raise ValueError("Percent must be between 0 and 100")
+        self.price = self.price * (1 - percent / 100)

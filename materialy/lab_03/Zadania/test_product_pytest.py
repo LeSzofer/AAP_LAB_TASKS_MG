@@ -1,9 +1,3 @@
-# -*- coding: utf-8 -*-
-"""Testy pytest dla klasy Product -- uzupelnij!
-
-Uruchomienie: pytest test_product_pytest.py -v
-"""
-
 import pytest
 from product import Product
 
@@ -56,7 +50,7 @@ def test_remove_stock_too_much_raises(product):
     """Sprawdz, czy proba usuniecia za duzej ilosci rzuca ValueError."""
     # TODO: Uzyj with pytest.raises(ValueError):
     with pytest.raises(ValueError):
-        product.remove_stock(15)
+        product.remove_stock(25)
 
 
 def test_add_stock_negative_raises(product):
@@ -64,3 +58,34 @@ def test_add_stock_negative_raises(product):
     # TODO: Uzyj with pytest.raises(ValueError):
     with pytest.raises(ValueError):
         product.add_stock(-5)
+
+
+@pytest.fixture
+def product_100():
+
+    return Product("Testowy", 100.0, 5)
+
+
+@pytest.mark.parametrize("percent, expected_price", [
+    (0,   100.0),
+    (50,   50.0),
+    (100,   0.0),
+    (25,   75.0),
+    (10,   90.0),
+])
+def test_apply_discount(product_100, percent, expected_price):
+    
+    product_100.apply_discount(percent)
+    assert product_100.price == pytest.approx(expected_price)
+
+
+@pytest.mark.parametrize("invalid_percent", [
+    -1,
+    -100,
+    101,
+    200,
+])
+def test_apply_discount_invalid_raises(product_100, invalid_percent):
+
+    with pytest.raises(ValueError):
+        product_100.apply_discount(invalid_percent)
