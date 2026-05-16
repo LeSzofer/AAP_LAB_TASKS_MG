@@ -7,9 +7,9 @@ try:
     client = MongoClient("mongodb://localhost:27017",
                          serverSelectionTimeoutMS=5000)
     client.admin.command('ping')  # test połączenia
-    print("✅ Połączono z MongoDB.")
+    print("Połączono z MongoDB.")
 except Exception as e:
-    print("❌ Błąd połączenia z MongoDB:", e)
+    print("Błąd połączenia z MongoDB:", e)
     exit(1)
 
 # Wybierz bazę i kolekcję
@@ -26,7 +26,7 @@ try:
     response.raise_for_status()  # rzuci wyjątkiem przy błędzie HTTP (np. 4xx/5xx)
     data = response.json()
 except requests.RequestException as e:
-    print("❌ Błąd pobierania danych z API:", e)
+    print("Błąd pobierania danych z API:", e)
     exit(2)
 
 # Sprawdź strukturę
@@ -34,7 +34,7 @@ if "data" not in data:
     raise KeyError("Brak klucza 'data' w odpowiedzi API. Sprawdź format JSON.")
 raw_networks = data["data"]
 
-print(f"📦 Otrzymano {len(raw_networks)} sieci z API.")
+print(f"Otrzymano {len(raw_networks)} sieci z API.")
 
 # 3. Przekształć dane — dokumenty MongoDB to dicty z polami `_id`, `attributes`, itd.
 # API zwraca listę dokumentów w formacie:
@@ -57,12 +57,12 @@ for item in raw_networks:
 # Wstaw dokumenty do MongoDB
 if documents:
     result = networks.insert_many(documents)
-    print(f"✅ Wstawiono {len(result.inserted_ids)} dokumentów.")
+    print(f"Wstawiono {len(result.inserted_ids)} dokumentów.")
 else:
-    print("⚠️ Brak danych do wstawienia.")
+    print("Brak danych do wstawienia.")
 
 # 4. Agregacja: ile sieci per typ (z pola `type`, nie `attributes.type` — sprawdźmy najpierw strukturę)
-print("\n📊 Liczba sieci per typ (agregacja MongoDB):")
+print("\nLiczba sieci per typ (agregacja MongoDB):")
 
 # Sprawdź przykładowy dokument, by upewnić się, gdzie jest pole `type`
 sample = networks.find_one()

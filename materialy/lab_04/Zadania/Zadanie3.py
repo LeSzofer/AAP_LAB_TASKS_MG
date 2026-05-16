@@ -43,14 +43,14 @@ def semantic_search(query_vec: np.ndarray, database: dict, top_k: int = 3):
 
 # Przykład użycia:
 query = np.array([0.7, 0.3, 0.8])  # "cos jak sci-fi / akcja"
-print("🔍 Zapytanie: 'sci-fi/akcja' → wektor [0.7, 0.3, 0.8]\n")
+print("Zapytanie: 'sci-fi/akcja' → wektor [0.7, 0.3, 0.8]\n")
 results = semantic_search(query, filmy, top_k=3)
 
 for i, (title, sim) in enumerate(results, start=1):
     print(f"{i}. {title}: {sim:.3f}")
 
 # Opcjonalnie: wizualizacja (czytelniejsza)
-print("\n📊 Wyniki:")
+print("\nWyniki:")
 print("-" * 30)
 for title, sim in results:
     bar = "█" * int(sim * 50)  # pasek od 0 do 50
